@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ToolMail.Controllers;
 
 namespace ToolMail.Views
 {
@@ -23,5 +24,26 @@ namespace ToolMail.Views
         {
             InitializeComponent();
         }
+
+        public ProcessMail _ProcessMail { get; set; } = new ProcessMail();
+        #region handle event
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow._ProcessMail._captchaKey = wpf_apiKey.Text;
+                mainWindow._ProcessMail._numThread = wpf_thread.Value.Value;
+                mainWindow._ProcessMail._numThreadPerProxy = wpf_proxyLimit.Value.Value;
+                TextRange textRange = new TextRange(wpf_proxyKey.Document.ContentStart, wpf_proxyKey.Document.ContentEnd);
+                List<string> proxyKeys = textRange.Text.Replace("\r", "").Split( '\n' ).ToList();
+                mainWindow._ProcessMail.setApikey(proxyKeys);
+            }
+            this.Close();
+        }
+        #endregion
     }
 }

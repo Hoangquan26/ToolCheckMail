@@ -4,9 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToolMail.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Setting" Height="450" Width="800">
+        Title="Setting" Height="650" Width="800">
     <Grid>
-        
+        <StackPanel Margin="10">
+            <!-- Number of Threads Setting -->
+            <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}" Header="Cài đặt luồng" Margin="0,0,0,10">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Label Content="Số luồng:" VerticalAlignment="Center"/>
+                    <xctk:IntegerUpDown Name="wpf_thread" Width="100" Margin="10,0,0,0" Minimum="1" Maximum="100" Value="1"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}" Header="Cài đặt luồng" Margin="0,0,0,10">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Label Content="Số luồng/proxy:" VerticalAlignment="Center"/>
+                    <xctk:IntegerUpDown Name="wpf_proxyLimit" Width="100" Margin="10,0,0,0" Minimum="1" Maximum="100" Value="100"/>
+                </StackPanel>
+            </GroupBox>
+            <!-- AutoCaptcha API Setting -->
+            <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}" Header="AutoCaptcha API Setting" Margin="0,0,0,10">
+                <StackPanel Margin="10" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Label Content="API Key:"/>
+                    <TextBox Name="wpf_apiKey" Width="300" Margin="0,5,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Proxy Setting -->
+            <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}" Header="Proxy Setting">
+                <StackPanel VerticalAlignment="Center" Margin="10"  Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" Content="Key Proxy:"/>
+                    <RichTextBox Name="wpf_proxyKey" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="100" Margin="0,5,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,0,0">
+                <Button Content="Save" Width="100" Margin="0,0,10,0" Click="Button_Click"/>
+                <Button Content="Close" Width="100" Click="CloseButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

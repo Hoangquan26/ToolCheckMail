@@ -49,19 +49,19 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>
-            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+            <!--<StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock FontWeight="Medium" FontSize="16" Foreground="#d9534f"  Text="DIE"></TextBlock>
                 <TextBlock FontSize="16" Margin="5 0 0 0"  Text="{Binding DieCount}" Foreground="#d9534f" Name="textbox_die"></TextBlock>
                 <TextBlock FontWeight="Medium" FontSize="16" Foreground="#ffba00" Margin="25 0 0 0" Text="LIVE"></TextBlock>
                 <TextBlock FontSize="16" Margin="5 0 0 0" Text="{Binding LiveCount}" Foreground="#ffba00"  Name="textbox_live"></TextBlock>
                 <TextBlock FontWeight="Medium" FontSize="16" Margin="25 0 0 0" Text="ALL"></TextBlock>
                 <TextBlock FontSize="16" Margin="5 0 0 0" Text="{Binding AllCount}" Name="textbox_all"></TextBlock>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Style="{StaticResource MaterialDesignOutlinedButton}" Click="StartProcessingEmails" Content="Bắt đầu"></Button>
-            <Button Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="#d9534f" BorderBrush="#d9534f" Margin="10 0" Content="Tạm dừng"></Button>
-            <Button Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="#ffba00" BorderBrush="#ffba00" Content="Cài đặt"></Button>
+            <!--<Button Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="#d9534f" BorderBrush="#d9534f" Margin="10 0" Content="Tạm dừng"></Button>-->
+            <Button Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="#ffba00" BorderBrush="#ffba00" Content="Cài đặt" Click="Setting_click"></Button>
         </StackPanel>
     </Grid>
 </Window>

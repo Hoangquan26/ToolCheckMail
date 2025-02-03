@@ -15,6 +15,7 @@ using ToolMail.Constant;
 using ToolMail.Controllers;
 using ToolMail.Models;
 using ToolMail.Utils;
+using ToolMail.Views;
 
 namespace ToolMail
 {
@@ -23,8 +24,21 @@ namespace ToolMail
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+
         #region Properties
         public ObservableCollection<InputMail> inputMail = new ObservableCollection<InputMail>();
+        public ProcessMail _ProcessMail { get; set; } = new ProcessMail();
+        public ObservableCollection<InputMail> InputMail
+        {
+            get => inputMail;
+            set
+            {
+                inputMail = value;
+                OnPropertyChanged(nameof(InputMail));
+                UpdateCounts();
+            }
+        }
+
         #endregion
 
         #region StatusProperties
@@ -113,11 +127,10 @@ namespace ToolMail
             dialog.Title = "Chọn file txt";
             if (dialog.ShowDialog() == true)
             {
-                InputMail.index = 0;
                 string fileName = dialog.FileName;
                 this.inputMail = new ObservableCollection<InputMail>(FileUtils.TEXT_getAccount(fileName));
                 UpdateCounts();
-                accountGrid.ItemsSource = inputMail;
+                accountGrid.ItemsSource = InputMail;
             }
         }
         private void ImportTxt_Click(object sender, RoutedEventArgs e)
@@ -144,7 +157,21 @@ namespace ToolMail
 
         private void ExportTxt_Click(object sender, RoutedEventArgs e)
         {
-           
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.Title = "Chọn nơi lưu file txt";
+            if (dialog.ShowDialog() == true)
+            {
+                string fileName = dialog.FileName;
+                StringBuilder sb = new StringBuilder();
+                foreach (var mail in inputMail)
+                {
+                    sb.AppendLine($"{mail.Email}|{mail.Password}|{mail.Proxy}|{mail.Status}");
+                }
+                System.IO.File.WriteAllText(fileName, sb.ToString());
+                MessageBox.Show("Xuất file thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void DeleteAll_Click(object sender, RoutedEventArgs e)
@@ -155,15 +182,23 @@ namespace ToolMail
             accountGrid.ItemsSource = inputMail;
         }
 
+
         private void StartProcessingEmails(object sender, RoutedEventArgs e)
         {
             Task mainTask = new Task(async() =>
             {
                 var checkedMail = new ObservableCollection<InputMail>(inputMail.Where(mail => mail.Checked));
-                await ProcessMail.ProcessEmailsAsync(checkedMail, 50); // Example: limit to 4 concurrent threads
-             });
+                await this._ProcessMail.ProcessEmailsAsync(checkedMail, this._ProcessMail._numThread); // Example: limit to 4 concurrent threads
+            });
             mainTask.Start();
         }
+
+        private void Setting_click(object sender, RoutedEventArgs e)
+        {
+            SettingWindow settingWindow = new SettingWindow();
+            settingWindow.ShowDialog();
+        }
         #endregion
+
     }
 }
